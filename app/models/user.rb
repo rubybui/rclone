@@ -10,9 +10,11 @@ class EmailValidator < ActiveModel::EachValidator
 end
 
 class User < ApplicationRecord
+    has_secure_password
     validates :name, presence: true, length: {minimum: 5}
     validates :username, presence: true, uniqueness: true, length: {in: 5..20}
     before_validation { |user| user.email = email.downcase }
     validates :email, presence:true, uniqueness: true, confirmation: true, email: true
-    
+    validates :password, presence: true, length: { minimum: 6 }
+    validates :password_confirmation, presence: true
 end
